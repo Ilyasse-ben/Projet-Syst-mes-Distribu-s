@@ -21,7 +21,7 @@ public class BankAccountController {
     public BankAccount getAccountById(@PathVariable UUID id){
         return ebankService.getBankAccountById(id);
     }
-    @GetMapping("/{customerId}")
+    @GetMapping("/customer/{customerId}")
     public List<BankAccount> getAllAccountByIdCoustomer(@PathVariable UUID customerId){
         return ebankService.getAllBankAccountByIdCustomer(customerId);
     }
