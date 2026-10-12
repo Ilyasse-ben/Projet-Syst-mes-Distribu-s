@@ -2,6 +2,7 @@
 package net.ilyasse.ebankchat.controller;
 
 import net.ilyasse.ebankchat.agents.EbankAIAgent;
+import org.apache.tomcat.util.http.parser.MediaType;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
@@ -15,7 +16,7 @@ public class ChatController {
     @Autowired
     private EbankAIAgent ebankAIAgent;
 
-    @GetMapping
+    @GetMapping()
     public String chat(
             @RequestParam(name = "question",
                     defaultValue = "What is a Spring Framework?")
