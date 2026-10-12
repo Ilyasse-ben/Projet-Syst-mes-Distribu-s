@@ -1,6 +1,7 @@
 package net.ilyasse.ebankservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.ilyasse.ebankservice.dto.AccountDto;
 import net.ilyasse.ebankservice.entity.BankAccount;
 import net.ilyasse.ebankservice.service.EbankService;
 import org.springframework.web.bind.annotation.*;
@@ -26,8 +27,8 @@ public class BankAccountController {
         return ebankService.getAllBankAccountByIdCustomer(customerId);
     }
     @PostMapping
-    public BankAccount addAccount(@RequestBody BankAccount bankAccount){
-        return ebankService.saveBankAccount(bankAccount);
+    public BankAccount addAccount(@RequestBody AccountDto accountDto){
+        return ebankService.saveBankAccount(accountDto);
     }
 
 

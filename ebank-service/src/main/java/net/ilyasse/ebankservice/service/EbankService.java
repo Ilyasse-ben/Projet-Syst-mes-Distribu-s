@@ -1,5 +1,6 @@
 package net.ilyasse.ebankservice.service;
 
+import net.ilyasse.ebankservice.dto.AccountDto;
 import net.ilyasse.ebankservice.entity.BankAccount;
 import net.ilyasse.ebankservice.feign.CustomerRestClient;
 import net.ilyasse.ebankservice.model.Customers;
@@ -31,10 +32,10 @@ public class EbankService {
         return bankAccount;
     }
     @McpTool(description = "Ajouter un compte banckaire")
-    public BankAccount saveBankAccount(@McpToolParam(description = "le compte bancaire a ajouter (balance type customerId)") BankAccount bankAccount){
+    public BankAccount saveBankAccount(@McpToolParam(description = "le compte bancaire a ajouter (balance type customerId)") AccountDto accountDto){
         try {
-            Customers customers=client.getCustomerById(bankAccount.getId());
-            bankAccount.setCreatedAt(new Date());
+            Customers customers=client.getCustomerById(accountDto.getCustomerId());
+            BankAccount bankAccount=BankAccount.builder().createdAt(new Date()).balance(accountDto.getBalance()).type(accountDto.getType()).customers(customers).customerId(accountDto.getCustomerId()).build();
             return bankAccountRepository.save(bankAccount);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

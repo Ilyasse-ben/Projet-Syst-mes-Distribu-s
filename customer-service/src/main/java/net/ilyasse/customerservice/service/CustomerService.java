@@ -1,12 +1,12 @@
 package net.ilyasse.customerservice.service;
 
+import net.ilyasse.customerservice.dto.CustomerDto;
 import net.ilyasse.customerservice.entity.Customer;
 import net.ilyasse.customerservice.repository.CustomerRepository;
 import org.springframework.ai.mcp.annotation.McpTool;
 import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +26,8 @@ public class CustomerService {
 
     }
     @McpTool(description = "save new customer")
-    public Customer saveCustomer(@McpToolParam(description = "the customer to save (name, email") Customer customer){
+    public Customer saveCustomer(@McpToolParam(description = "the customer to save (name, email") CustomerDto customerDto){
+        Customer customer=Customer.builder().name(customerDto.getName()).email(customerDto.getEmail()).build();
         return customerRepository.save(customer);
     }
 }

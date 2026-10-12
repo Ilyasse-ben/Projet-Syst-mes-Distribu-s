@@ -1,5 +1,6 @@
 package net.ilyasse.customerservice.contoller;
 
+import net.ilyasse.customerservice.dto.CustomerDto;
 import net.ilyasse.customerservice.entity.Customer;
 import net.ilyasse.customerservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
     @PostMapping
-    public Customer addCustomer(@RequestBody Customer customer){
-        return customerService.saveCustomer(customer);
+    public Customer addCustomer(@RequestBody CustomerDto customerDto){
+        return customerService.saveCustomer(customerDto);
     }
 }
