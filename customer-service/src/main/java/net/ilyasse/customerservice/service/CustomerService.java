@@ -2,8 +2,11 @@ package net.ilyasse.customerservice.service;
 
 import net.ilyasse.customerservice.entity.Customer;
 import net.ilyasse.customerservice.repository.CustomerRepository;
+import org.springframework.ai.mcp.annotation.McpTool;
+import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,15 +15,18 @@ import java.util.UUID;
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+    @McpTool(description = "get all customers")
     public List<Customer> getAllCustomers(){
         return customerRepository.findAll();
     }
-    public Customer getCustomerById(UUID idCustomer){
+    @McpTool(description = "find customer By Id")
+    public Customer getCustomerById(@McpToolParam(description = "the customer id") UUID idCustomer){
         return customerRepository.findById(idCustomer)
                 .orElseThrow(()-> new RuntimeException("Customer not find"));
 
     }
-    public Customer saveCustomer(Customer customer){
+    @McpTool(description = "save new customer")
+    public Customer saveCustomer(@McpToolParam(description = "the customer to save") Customer customer){
         return customerRepository.save(customer);
     }
 }
