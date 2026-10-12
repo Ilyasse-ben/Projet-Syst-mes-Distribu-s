@@ -26,7 +26,7 @@ public class CustomerService {
 
     }
     @McpTool(description = "save new customer")
-    public Customer saveCustomer(@McpToolParam(description = "the customer to save") Customer customer){
+    public Customer saveCustomer(@McpToolParam(description = "the customer to save (name, email") Customer customer){
         return customerRepository.save(customer);
     }
 }

@@ -4,6 +4,8 @@ import net.ilyasse.ebankservice.entity.BankAccount;
 import net.ilyasse.ebankservice.feign.CustomerRestClient;
 import net.ilyasse.ebankservice.model.Customers;
 import net.ilyasse.ebankservice.repository.BankAccountRepository;
+import org.springframework.ai.mcp.annotation.McpTool;
+import org.springframework.ai.mcp.annotation.McpToolParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +19,19 @@ public class EbankService {
     private BankAccountRepository bankAccountRepository;
     @Autowired
     private CustomerRestClient client;
-
+    @McpTool(description = "donner tous les comptes bankaire")
     public List<BankAccount> getAllBankAccount(){
         return bankAccountRepository.findAll();
     }
-    public BankAccount getBankAccountById(UUID id){
+    @McpTool(description = "donner un compte banckaires par id")
+    public BankAccount getBankAccountById(@McpToolParam(description = "L'id de compte banckaire") UUID id){
         BankAccount bankAccount=bankAccountRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Bank Account not find"));
         bankAccount.setCustomers(client.getCustomerById(bankAccount.getCustomerId()));
         return bankAccount;
     }
-    public BankAccount saveBankAccount(BankAccount bankAccount){
+    @McpTool(description = "Ajouter un compte banckaire")
+    public BankAccount saveBankAccount(@McpToolParam(description = "le compte bancaire a ajouter (balance type customerId)") BankAccount bankAccount){
         try {
             Customers customers=client.getCustomerById(bankAccount.getId());
             bankAccount.setCreatedAt(new Date());
@@ -37,7 +41,8 @@ public class EbankService {
         }
 
     }
-    public List<BankAccount> getAllBankAccountByIdCustomer(UUID customerId){
+    @McpTool(description = "donner tous les comptes banckaire associer a un utilisateur")
+    public List<BankAccount> getAllBankAccountByIdCustomer(@McpToolParam(description = "L'id de l'utilisateur") UUID customerId){
         return bankAccountRepository.findByCustomerId(customerId);
 
     }
